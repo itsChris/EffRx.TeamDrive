@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32414.318
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EffRx.TeamDrive.Sqlite", "EffRx.TeamDrive.Sqlite\EffRx.TeamDrive.Sqlite.csproj", "{0198FEE0-48B3-49DD-8C9B-2605D199C9F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EffRx.TeamDrive.ShellExHandler", "EffRx.TeamDrive.ShellExHandler\EffRx.TeamDrive.ShellExHandler.csproj", "{F98305D8-1B17-4428-90F3-22445479FA74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EffRx.TeamDrive.ProtocolHandler", "EffRx.TeamDrive.ProtocolHandler\EffRx.TeamDrive.ProtocolHandler.csproj", "{FEE61663-FB95-40FD-999E-F38D1719D263}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EffRx.TeamDrive.ShellEx", "EffRx.TeamDrive.ShellEx\EffRx.TeamDrive.ShellEx.csproj", "{CFB996F5-7216-44E8-ABAB-470EF159013B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0198FEE0-48B3-49DD-8C9B-2605D199C9F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0198FEE0-48B3-49DD-8C9B-2605D199C9F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0198FEE0-48B3-49DD-8C9B-2605D199C9F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0198FEE0-48B3-49DD-8C9B-2605D199C9F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F98305D8-1B17-4428-90F3-22445479FA74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F98305D8-1B17-4428-90F3-22445479FA74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F98305D8-1B17-4428-90F3-22445479FA74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F98305D8-1B17-4428-90F3-22445479FA74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEE61663-FB95-40FD-999E-F38D1719D263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEE61663-FB95-40FD-999E-F38D1719D263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEE61663-FB95-40FD-999E-F38D1719D263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEE61663-FB95-40FD-999E-F38D1719D263}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFB996F5-7216-44E8-ABAB-470EF159013B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFB996F5-7216-44E8-ABAB-470EF159013B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFB996F5-7216-44E8-ABAB-470EF159013B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFB996F5-7216-44E8-ABAB-470EF159013B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {81A84E2B-CA0A-4243-9501-AEC43F73D743}
+	EndGlobalSection
+EndGlobal
