@@ -35,10 +35,9 @@ namespace EffRx.TeamDrive.ShellExHandler
         {
             try
             {
-                var reg = Registry.LocalMachine.OpenSubKey("Software", true).OpenSubKey("Classes", true).OpenSubKey("Directory", true).OpenSubKey("shell", true);
+                var reg = Registry.LocalMachine.OpenSubKey("Software", true).OpenSubKey("Classes", true).OpenSubKey("AllFilesystemObjects", true).OpenSubKey("shell", true);
                 RegistryKey key = reg.CreateSubKey(@"EffRx-TeamDriveShellEx\command", true);
                 key.SetValue("", "\"" + applicationPath + "\" \"%1\"");
-
             }
             catch (Exception ex)
             {

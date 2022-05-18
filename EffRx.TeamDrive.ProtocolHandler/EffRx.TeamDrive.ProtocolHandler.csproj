@@ -70,6 +70,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EffRx.TeamDrive.Common\EffRx.TeamDrive.Common.csproj">
+      <Project>{b0c2aac3-fd3a-438d-8084-fc6999b729ef}</Project>
+      <Name>EffRx.TeamDrive.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EffRx.TeamDrive.Sqlite\EffRx.TeamDrive.Sqlite.csproj">
       <Project>{0198fee0-48b3-49dd-8c9b-2605d199c9f9}</Project>
       <Name>EffRx.TeamDrive.Sqlite</Name>
