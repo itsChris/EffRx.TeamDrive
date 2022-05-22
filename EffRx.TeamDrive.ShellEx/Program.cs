@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
 using EffRx.TeamDrive.Common.Logging;
 using EffRx.TeamDrive.Sqlite.Database;
@@ -14,16 +15,31 @@ namespace EffRx.TeamDrive.ShellEx
         {
             get { return (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TeamDrive\teamdrive.sqlite"); }
         }
+
+        private static string LogFilePath
+        {
+            get
+            {
+                {
+                    string datetimeFormat = DateTime.Now.ToString("yyyy-MM-dd");
+                    var ret = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + $@"\{datetimeFormat}-" +
+                                Assembly.GetExecutingAssembly().GetName().Name + ".log";
+                    return ret;
+                }
+            }
+        }
+
         [STAThread]
         static void Main(string[] args)
         {
+            logger = new SimpleLogger(LogFilePath);
             if (args.Length == 0)
             {
-                Console.WriteLine("No command line arguments provided");
+                logger.Info("No command line arguments provided");
             }
             else
             {
-                Console.WriteLine($"Command line arguments provided: {args[0]}");
+                logger.Info($"Command line arguments provided: {args[0]}");
                 string arg = args[0];
 
                 string searchfor = arg.Replace(@"\", @"/");
@@ -38,25 +54,26 @@ namespace EffRx.TeamDrive.ShellEx
                     {
                         int pos = space.SpaceRoot.LastIndexOf("/") + 1;
 
-                        Console.WriteLine($"Found space with ID: {space.Id} | OriginalName: {space.OriginalName}");
+                        logger.Info($"Found space with ID: {space.Id} | OriginalName: {space.OriginalName}");
                         string cutted = space.SpaceRoot.Substring(pos, space.SpaceRoot.Length - pos);
-                        Console.WriteLine($"cutted: {cutted}");
+                        logger.Info($"cutted: {cutted}");
                         string spaceret = space.SpaceRoot.Replace(cutted, string.Empty);
                         string argesc = arg.Replace(@"\", @"/");
 
-                        string ret = $@"{UriScheme}:""{argesc.Replace(spaceret, string.Empty)}""";
+                        //string ret = $@"{UriScheme}:""{argesc.Replace(spaceret, string.Empty)}""";
+                        string ret = $@"{UriScheme}:{argesc.Replace(spaceret, string.Empty)}";
                         ret = ret.Replace(" ", "%20");
-                        Console.WriteLine($"Will add the following to the clipboard {ret}");
+                        logger.Info($"Will add the following to the clipboard {ret}");
                         Clipboard.SetText(ret);
                     }
                     else
                     {
-                        Console.WriteLine($"Skipping space with ID: {space.Id} | OriginalName: {space.OriginalName} | SpaceRoot: {space.SpaceRoot}");
+                        logger.Info($"Skipping space with ID: {space.Id} | OriginalName: {space.OriginalName} | SpaceRoot: {space.SpaceRoot}");
                     }
                 }
             }
 
-            Console.WriteLine("Hit enter to quit..");
+            logger.Info("Hit enter to quit..");
             Console.Read();
         }
 
