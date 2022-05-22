@@ -22,7 +22,7 @@
 		<Property Id="ARPCONTACT" Value="Solvia GmbH, Forch, Switzerland, info@solvia.ch"/>
 
 		<!-- Begin of icon declarations -->
-		<Icon Id="SolviaCustomIcon" SourceFile=".\_Sources\ICOs\iETSolutions.ico"/>
+		<Icon Id="SolviaCustomIcon" SourceFile=".\_Sources\ICOs\protocol_icon_137277.ico"/>
 		<!-- End of icon declarations -->
 		<Media Id="1" EmbedCab="no" />
 
@@ -33,6 +33,7 @@
 				 Title="EffRx.TeamDrive.Installer" 
 				 Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentGroupRef Id="MainComp" />
 		</Feature>
 	</Product>
 

@@ -19,6 +19,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Files.wxs" />
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
@@ -34,9 +35,23 @@
   <ItemGroup>
     <Folder Include="_Sources" />
     <Folder Include="_Sources\ICOs" />
+    <Folder Include="_Sources\x64\" />
+    <Folder Include="_Sources\x86\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="_Sources\ICOs\iETSolutions.ico" />
+    <Content Include="_Sources\EffRx.TeamDrive.Common.dll" />
+    <Content Include="_Sources\EffRx.TeamDrive.ProtocolHandler.exe" />
+    <Content Include="_Sources\EffRx.TeamDrive.ShellEx.exe" />
+    <Content Include="_Sources\EffRx.TeamDrive.ShellExHandler.exe" />
+    <Content Include="_Sources\EffRx.TeamDrive.Sqlite.dll" />
+    <Content Include="_Sources\EntityFramework.dll" />
+    <Content Include="_Sources\EntityFramework.SqlServer.dll" />
+    <Content Include="_Sources\ICOs\protocol_icon_137277.ico" />
+    <Content Include="_Sources\System.Data.SQLite.dll" />
+    <Content Include="_Sources\System.Data.SQLite.EF6.dll" />
+    <Content Include="_Sources\System.Data.SQLite.Linq.dll" />
+    <Content Include="_Sources\x64\SQLite.Interop.dll" />
+    <Content Include="_Sources\x86\SQLite.Interop.dll" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />

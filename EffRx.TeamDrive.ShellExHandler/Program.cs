@@ -79,14 +79,14 @@ namespace EffRx.TeamDrive.ShellExHandler
 
                 var regKeyCurrUser = Registry.CurrentUser
                     .CreateSubKey("Software", true)
-                .CreateSubKey("Policies", true)
-                .CreateSubKey("Microsoft", true)
-                .CreateSubKey("Office", true)
-                .CreateSubKey("16.0", true)
-                .CreateSubKey("Common", true)
-                .CreateSubKey("Security", true)
-                .CreateSubKey("Trusted Protocols", true)
-                .CreateSubKey("All Applications", true);
+                    .CreateSubKey("Policies", true)
+                    .CreateSubKey("Microsoft", true)
+                    .CreateSubKey("Office", true)
+                    .CreateSubKey("16.0", true)
+                    .CreateSubKey("Common", true)
+                    .CreateSubKey("Security", true)
+                    .CreateSubKey("Trusted Protocols", true)
+                    .CreateSubKey("All Applications", true);
                 RegistryKey key = regKeyCurrUser.CreateSubKey(protocolName);
                 logger.Info("done adding registry key");
             }
