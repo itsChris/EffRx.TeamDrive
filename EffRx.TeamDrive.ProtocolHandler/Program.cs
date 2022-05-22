@@ -118,8 +118,9 @@ namespace EffRx.TeamDrive.ProtocolHandler
             catch (Exception ex)
             {
                 logger.Error("Exception: " + ex.Message);
-                throw;
             }
         }
+
+
     }
 }

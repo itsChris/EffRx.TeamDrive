@@ -53,6 +53,12 @@
     <None Include="App.config" />
     <None Include="app.manifest" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EffRx.TeamDrive.Common\EffRx.TeamDrive.Common.csproj">
+      <Project>{B0C2AAC3-FD3A-438D-8084-FC6999B729EF}</Project>
+      <Name>EffRx.TeamDrive.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).exe" "$(SolutionDir)\EffRx-TeamDrive-ProtocolHandler\bin\Debug\$(ProjectName).exe"

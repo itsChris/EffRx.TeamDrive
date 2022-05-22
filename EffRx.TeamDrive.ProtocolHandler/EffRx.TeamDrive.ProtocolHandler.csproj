@@ -79,9 +79,7 @@
       <Name>EffRx.TeamDrive.Sqlite</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Logging\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).exe" "$(SolutionDir)\EffRx-TeamDrive-ProtocolHandler\bin\Debug\$(ProjectName).exe"

@@ -1,18 +1,41 @@
-﻿using Microsoft.Win32;
+﻿using EffRx.TeamDrive.Common.Logging;
+using Microsoft.Win32;
 using System;
 using System.IO;
+using System.Reflection;
 
 namespace EffRx.TeamDrive.ShellExHandler
 {
     internal class Program
     {
+        public const string UriScheme = "EffRx-TeamDrive";
+
+        private static SimpleLogger logger { get; set; }
+        private static string LogFilePath
+        {
+            get
+            {
+                {
+                    string datetimeFormat = DateTime.Now.ToString("yyyy-MM-dd");
+                    var ret = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + $@"\{datetimeFormat}-" +
+                                Assembly.GetExecutingAssembly().GetName().Name + ".log";
+                    return ret;
+                }
+            }
+        }
         static void Main(string[] args)
         {
-            Console.WriteLine(args.Length);
+            // initiate logger
+            logger = new SimpleLogger(LogFilePath);
+
+            // it's a user registry key but requires UAC elevated permission in order to add the key .. 
+            ChangeOutlookSecurity(UriScheme);
+
+            logger.Info($"Argument count: {args.Length}");
 
             if (args.Length == 0)
             {
-                Console.WriteLine("ERROR: No argument provided!");
+                logger.Error("ERROR: No argument provided!");
             }
             else
             {
@@ -23,11 +46,11 @@ namespace EffRx.TeamDrive.ShellExHandler
                 }
                 else
                 {
-                    Console.WriteLine($"File/Path: {path} is invalid/does not exist!");
+                    logger.Error($"File/Path: {path} is invalid/does not exist!");
                 }
             }
 
-            Console.WriteLine("Press enter to exit..");
+            logger.Error("Press enter to exit..");
             Console.Read();
         }
 
@@ -41,8 +64,35 @@ namespace EffRx.TeamDrive.ShellExHandler
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                logger.Error($"Exception: {ex.Message}");
+            }
+        }
 
+        private static void ChangeOutlookSecurity(string protocolName)
+        {
+            try
+            {
+                logger.Info($"Will try to update Outlook security settings for: {protocolName} ");
+                logger.Info(@"Key: HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Office\16.0\Common\Security\Trusted Protocols\All Applications\EffRx-TeamDrive:");
+                // https://docs.microsoft.com/en-us/office365/troubleshoot/administration/enable-disable-hyperlink-warning
+                //HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Office\16.0\Common\Security\Trusted Protocols\All Applications\EffRx-TeamDrive:
+
+                var regKeyCurrUser = Registry.CurrentUser
+                    .CreateSubKey("Software", true)
+                .CreateSubKey("Policies", true)
+                .CreateSubKey("Microsoft", true)
+                .CreateSubKey("Office", true)
+                .CreateSubKey("16.0", true)
+                .CreateSubKey("Common", true)
+                .CreateSubKey("Security", true)
+                .CreateSubKey("Trusted Protocols", true)
+                .CreateSubKey("All Applications", true);
+                RegistryKey key = regKeyCurrUser.CreateSubKey(protocolName);
+                logger.Info("done adding registry key");
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Exception: " + ex.Message);
             }
         }
     }
