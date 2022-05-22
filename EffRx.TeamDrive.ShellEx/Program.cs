@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using EffRx.TeamDrive.Common.Logging;
 using EffRx.TeamDrive.Sqlite.Database;
 
 namespace EffRx.TeamDrive.ShellEx
@@ -7,12 +8,15 @@ namespace EffRx.TeamDrive.ShellEx
     internal class Program
     {
         public const string UriScheme = "EffRx-TeamDrive";
-
+        private static SimpleLogger logger { get; set; }
+        private static SqliteHandler sqliteHandler { get; set; }
+        private static string TeamDriveSqliteDB
+        {
+            get { return (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TeamDrive\teamdrive.sqlite"); }
+        }
         [STAThread]
         static void Main(string[] args)
         {
-            string s = string.Empty;
-
             if (args.Length == 0)
             {
                 Console.WriteLine("No command line arguments provided");
@@ -24,7 +28,7 @@ namespace EffRx.TeamDrive.ShellEx
 
                 string searchfor = arg.Replace(@"\", @"/");
 
-                SqliteHandler sqliteHandler = new SqliteHandler(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TeamDrive\teamdrive.sqlite");
+                sqliteHandler = new SqliteHandler(TeamDriveSqliteDB, logger);
 
                 var spaces = sqliteHandler.GetSpaces();
 
@@ -41,6 +45,7 @@ namespace EffRx.TeamDrive.ShellEx
                         string argesc = arg.Replace(@"\", @"/");
 
                         string ret = $@"{UriScheme}:""{argesc.Replace(spaceret, string.Empty)}""";
+                        ret = ret.Replace(" ", "%20");
                         Console.WriteLine($"Will add the following to the clipboard {ret}");
                         Clipboard.SetText(ret);
                     }

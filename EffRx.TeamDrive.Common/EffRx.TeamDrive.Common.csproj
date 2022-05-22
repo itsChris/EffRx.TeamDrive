@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\ProtocolLink.cs" />
     <Compile Include="Entities\Space.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
+    <Compile Include="Logging\SimpleLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

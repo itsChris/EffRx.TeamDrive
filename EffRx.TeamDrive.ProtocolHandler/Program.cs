@@ -3,6 +3,8 @@ using System;
 using System.Diagnostics;
 using System.Reflection;
 using EffRx.TeamDrive.Sqlite.Database;
+using EffRx.TeamDrive.Common.Entities;
+using EffRx.TeamDrive.Common.Logging;
 
 namespace EffRx.TeamDrive.ProtocolHandler
 {
@@ -12,79 +14,95 @@ namespace EffRx.TeamDrive.ProtocolHandler
         public const string BinAddShellEx = "EffRx.TeamDrive.ShellExHandler.exe";
         public const string BinProtocolHandler = "EffRx.TeamDrive.ShellEx.exe";
 
+        private static string TeamDriveSqliteDB
+        {
+            get
+            {
+                var path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TeamDrive\teamdrive.sqlite";
+                return (path);
+            }
+        }
+        private static string LogFilePath
+        {
+            get
+            {
+                {
+                    string datetimeFormat = DateTime.Now.ToString("yyyy-MM-dd");
+                    var ret = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + $@"\{datetimeFormat}-" +
+                                Assembly.GetExecutingAssembly().GetName().Name + ".log";
+                    return ret;
+                }
+            }
+        }
+
+        private static SimpleLogger logger { get; set; }
+        private static SqliteHandler sqliteHandler { get; set; }
         static void Main(string[] args)
         {
+            // initiate logger
+            logger = new SimpleLogger(LogFilePath);
 
-            SqliteHandler sqliteHandler = new SqliteHandler(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TeamDrive\teamdrive.sqlite");
+            // initiate sqlLite..
+            sqliteHandler = new SqliteHandler(TeamDriveSqliteDB, logger);
             var spaces = sqliteHandler.GetSpaces();
 
-            Console.WriteLine($"args.length: {args.Length}");
+            logger.Info($"args.length: {args.Length}");
+
             // check command line args
             if (args.Length > 0)
             {
                 switch (args[0].ToLower())
                 {
                     case "register":
-                        Console.WriteLine($"Will register protocol handler: {UriScheme}");
+                        logger.Info($"Will register protocol handler: {UriScheme}");
                         RegisterUrlProtocol(UriScheme, Assembly.GetExecutingAssembly().Location);
-                        Console.WriteLine("done");
+                        logger.Info("done");
                         break;
                     case "addshellex":
-                        Console.WriteLine($"Will try to add Shell Extension");
+                        logger.Info($"Will try to add Shell Extension");
                         Process process = new Process();
                         process.StartInfo.FileName = BinAddShellEx;
                         process.StartInfo.Arguments = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" + BinProtocolHandler;
                         process.Start();
-                        Console.WriteLine("done");
+                        logger.Info("done");
                         break;
                     default:
                         if (args[0].ToLower().StartsWith(UriScheme.ToLower()))
                         {
                             try
                             {
-                                foreach (var arg in args)
-                                {
-                                    
-                                }
+                                ProtocolLink protocolLink = new ProtocolLink(args, UriScheme);
 
-                                Console.WriteLine($"It's a Link -> {args[0]}");
-                                Console.WriteLine($"Will search in database for space... ");
-                                string link = args[0];
-                                Console.WriteLine(link);
-                                link = link.Replace(UriScheme + ":", "");
-                                Console.WriteLine(link);
-                                int pos = link.IndexOf('/');
-                                Console.WriteLine(pos);
-                                string space = link.Substring(0, pos);
-                                Console.WriteLine(space);
+                                logger.Info($"It's a link -> {args[0]}");
+
                                 foreach (var objspace in spaces)
                                 {
-                                    if (objspace.SpaceRoot.Contains(space))
+                                    logger.Info($"Checking if space: {objspace.SpaceRoot.ToLower()} contains: {protocolLink.SpaceFromLink.ToLower()}");
+                                    if (objspace.SpaceRoot.ToLower().Contains(protocolLink.SpaceFromLink.ToLower()))
                                     {
-                                        Console.WriteLine($"Found space in database: ID {objspace.Id} | OriginalName: {objspace.OriginalName} | SpaceRoot: {objspace.SpaceRoot}");
-                                        string p = objspace.SpaceRoot.Replace(space, "") + link;
-                                        Process proc = new Process();
-                                        proc.StartInfo.Arguments = p;
-                                        proc.StartInfo.FileName = "explorer.exe";
-                                        proc.Start();
+                                        logger.Info($"Found space in database: ID {objspace.Id} | OriginalName: {objspace.OriginalName} | SpaceRoot: {objspace.SpaceRoot}");
+                                        string p = objspace.SpaceRoot.ToLower().Replace(protocolLink.SpaceFromLink.ToLower(), "") + protocolLink.LinkWithoutProtocolPrefix;
+                                        logger.Info($"Will try to start process with argument: {p}");
+                                        var ret = Process.Start("explorer.exe", p.Replace(@"/", @"\"));
+                                        logger.Debug($"Process id returned: {ret.Id}");
                                     }
                                 }
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine(ex.Message);
+                                logger.Error(ex.Message);
                                 Console.Read();
                             }
                         }
                         else
                         {
-                            Console.WriteLine("EffRx-TeamDrive Protocol Handler");
-                            Console.WriteLine($"Argument: {args[0]} is unknown!");
+                            logger.Info("EffRx-TeamDrive Protocol Handler");
+                            logger.Info($"Argument: {args[0]} is unknown!");
                         }
                         break;
                 }
             }
-            Console.WriteLine("Press enter to exit..");
+            logger.Info("Press enter to exit..");
             Console.Read();
         }
 
@@ -99,7 +117,7 @@ namespace EffRx.TeamDrive.ProtocolHandler
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Exception: " + ex.Message);
+                logger.Error("Exception: " + ex.Message);
                 throw;
             }
         }

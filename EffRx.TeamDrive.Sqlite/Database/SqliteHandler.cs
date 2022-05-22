@@ -1,6 +1,8 @@
 ﻿using EffRx.TeamDrive.Common.Entities;
+using EffRx.TeamDrive.Common.Interfaces;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.IO;
 
 namespace EffRx.TeamDrive.Sqlite.Database
 {
@@ -8,32 +10,27 @@ namespace EffRx.TeamDrive.Sqlite.Database
     {
         private string databasePath;
 
+        ILogger _iLogger;
+
         public string DatabasePath
         {
             get { return databasePath; }
             set { databasePath = value; }
         }
 
-        public SqliteHandler(string dbPath)
+        public SqliteHandler(string dbPath, ILogger iLogger)
         {
+            _iLogger = iLogger;
             databasePath = dbPath;
+
+            if (!File.Exists(dbPath))
+            {
+                _iLogger.Error($"Database file does not exist - Database path: {dbPath}");
+            }
+
             string cs = $@"URI=file:{dbPath}";
 
-            using (SQLiteConnection con = new SQLiteConnection(cs))
-            {
-                con.Open();
-                string stm = "SELECT ID, OriginalName, SpaceRoot FROM tbl_space";
-                using (SQLiteCommand cmd = new SQLiteCommand(stm, con))
-                {
-                    using (SQLiteDataReader rdr = cmd.ExecuteReader())
-                    {
-                        while (rdr.Read())
-                        {
-                            //System.Console.WriteLine($"ID: {rdr.GetInt32(0)} OriginalName: {rdr.GetString(1)} SpaceRoot: {rdr.GetString(2)}");
-                        }
-                    }
-                }
-            }
+            _iLogger.Info($"Database path: {dbPath}");
         }
 
         public List<Space> GetSpaces()
@@ -41,28 +38,37 @@ namespace EffRx.TeamDrive.Sqlite.Database
             List<Space> spaceList = new List<Space>();
             string cs = $@"URI=file:{databasePath}";
 
-            using (SQLiteConnection conn = new SQLiteConnection(cs))
+            try
             {
-                conn.Open();
-                string stm = "SELECT ID, OriginalName, SpaceRoot FROM tbl_space";
-                using (SQLiteCommand cmd = new SQLiteCommand(stm, conn))
+                _iLogger.Info("Trying to enumerate spaces..");
+                using (SQLiteConnection conn = new SQLiteConnection(cs))
                 {
-                    using (SQLiteDataReader rdr = cmd.ExecuteReader())
+                    conn.Open();
+                    string stm = "SELECT ID, OriginalName, SpaceRoot FROM tbl_space";
+                    using (SQLiteCommand cmd = new SQLiteCommand(stm, conn))
                     {
-                        while (rdr.Read())
+                        using (SQLiteDataReader rdr = cmd.ExecuteReader())
                         {
-                            spaceList.Add(
-                                new Space
-                                {
-                                    Id = rdr.GetInt32(0),
-                                    OriginalName = rdr.GetString(1),
-                                    SpaceRoot = rdr.GetString(2)
-                                });
-                            //System.Console.WriteLine($"ID: {rdr.GetInt32(0)} OriginalName: {rdr.GetString(1)} SpaceRoot: {rdr.GetString(2)}");
+                            while (rdr.Read())
+                            {
+                                spaceList.Add(
+                                    new Space
+                                    {
+                                        Id = rdr.GetInt32(0),
+                                        OriginalName = rdr.GetString(1),
+                                        SpaceRoot = rdr.GetString(2)
+                                    });
+                                _iLogger.Debug($"ID: {rdr.GetInt32(0)} OriginalName: {rdr.GetString(1)} SpaceRoot: {rdr.GetString(2)}");
+                            }
                         }
                     }
                 }
             }
+            catch (System.Exception ex)
+            {
+                _iLogger.Error(ex.Message);
+            }
+            _iLogger.Info($"Done enumerating spaces - will return {spaceList.Count} spaces");
             return spaceList;
         }
     }
