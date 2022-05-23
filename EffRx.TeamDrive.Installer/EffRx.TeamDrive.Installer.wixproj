@@ -29,6 +29,7 @@
     <Folder Include="_Sources\x86\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Notes.txt" />
     <Content Include="_Sources\EffRx.TeamDrive.Common.dll" />
     <Content Include="_Sources\EffRx.TeamDrive.ProtocolHandler.exe" />
     <Content Include="_Sources\EffRx.TeamDrive.ShellEx.exe" />

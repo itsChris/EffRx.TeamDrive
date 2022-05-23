@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Entities\ProtocolLink.cs" />
     <Compile Include="Entities\Space.cs" />
+    <Compile Include="Helpers\Various.cs" />
     <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Logging\SimpleLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

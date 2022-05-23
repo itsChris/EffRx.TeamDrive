@@ -6,6 +6,7 @@ using EffRx.TeamDrive.Sqlite.Database;
 using EffRx.TeamDrive.Common.Entities;
 using EffRx.TeamDrive.Common.Logging;
 using System.IO;
+using EffRx.TeamDrive.Common.Helpers;
 
 namespace EffRx.TeamDrive.ProtocolHandler
 {
@@ -54,6 +55,9 @@ namespace EffRx.TeamDrive.ProtocolHandler
             {
                 switch (args[0].ToLower())
                 {
+                    case "?":
+                        Console.WriteLine($"Argument can be: register | addshellex | win10menu | a valid {UriScheme} link");
+                        break;
                     case "register":
                         logger.Info($"Will register protocol handler: {UriScheme}");
                         RegisterUrlProtocol(UriScheme, Assembly.GetExecutingAssembly().Location);
@@ -62,6 +66,11 @@ namespace EffRx.TeamDrive.ProtocolHandler
                     case "addshellex":
                         logger.Info($"Will try to add Shell Extension");
                         AddShellExtension();
+                        logger.Info("done");
+                        break;
+                    case "win10menu":
+                        logger.Info("Will revert to windows 10 context menu style..");
+                        RevertToW10ContextMenu();
                         logger.Info("done");
                         break;
                     default:
@@ -104,9 +113,42 @@ namespace EffRx.TeamDrive.ProtocolHandler
             Console.Read();
         }
 
+        private static void RevertToW10ContextMenu()
+        {
+            if (Various.IsWindowsEleven)
+            {
+                logger.Info("RevertToW10ContextMenu: OS is Windows 11");
+            }
+            else
+            {
+                logger.Warning("RevertToW10ContextMenu: OS is not Windows 11.. calling this function makes no sense, since context menu ist pre-Win11 style..");
+            }
+            logger.Info("RevertToW10ContextMenu: Will try to modify registry...");
+            try
+            {
+                var regKeyCurrUser = Registry.CurrentUser
+                    .OpenSubKey("Software", true)
+                    .OpenSubKey("Classes", true)
+                    .CreateSubKey("CLSID", true);
+                RegistryKey key = regKeyCurrUser
+                    .CreateSubKey("{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}", true)
+                    .CreateSubKey("InprocServer32", true);
+
+                logger.Info("RevertToW10ContextMenu: done!");
+
+                logger.Info("RevertToW10ContextMenu: Will refresh explorer.. ");
+                Various.RestartExplorer();
+                logger.Info("RevertToW10ContextMenu: Done");
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"RevertToW10ContextMenu: {ex}");
+            }
+        }
+
         private static void AddShellExtension()
         {
-            string arg = '"' + System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" + BinProtocolHandler + '"';
+            string arg = '"' + Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" + BinProtocolHandler + '"';
 
             logger.Info($"AddShellExtension: BinaryToCall: {BinAddShellEx}");
             logger.Info($"AddShellExtension: Arguments: {arg}");
