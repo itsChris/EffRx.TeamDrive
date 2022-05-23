@@ -5,6 +5,7 @@ using System.Reflection;
 using EffRx.TeamDrive.Sqlite.Database;
 using EffRx.TeamDrive.Common.Entities;
 using EffRx.TeamDrive.Common.Logging;
+using System.IO;
 
 namespace EffRx.TeamDrive.ProtocolHandler
 {
@@ -60,10 +61,7 @@ namespace EffRx.TeamDrive.ProtocolHandler
                         break;
                     case "addshellex":
                         logger.Info($"Will try to add Shell Extension");
-                        Process process = new Process();
-                        process.StartInfo.FileName = BinAddShellEx;
-                        process.StartInfo.Arguments = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" + BinProtocolHandler;
-                        process.Start();
+                        AddShellExtension();
                         logger.Info("done");
                         break;
                     default:
@@ -106,21 +104,45 @@ namespace EffRx.TeamDrive.ProtocolHandler
             Console.Read();
         }
 
+        private static void AddShellExtension()
+        {
+            string arg = '"' + System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\" + BinProtocolHandler + '"';
+
+            logger.Info($"AddShellExtension: BinaryToCall: {BinAddShellEx}");
+            logger.Info($"AddShellExtension: Arguments: {arg}");
+
+            if (File.Exists(BinAddShellEx))
+            {
+
+                Process process = new Process();
+                process.StartInfo.FileName = BinAddShellEx;
+                process.StartInfo.Arguments = arg;
+                process.Start();
+                logger.Info($"AddShellExtension: Returned ProcessId: {process.Id}");
+            }
+            else
+            {
+                logger.Error($"File does not exist: {BinAddShellEx}");
+            }
+        }
+
         public static void RegisterUrlProtocol(string protocolName, string applicationPath)
         {
             try
             {
+                logger.Info($"RegisterUrlProtocol: Variable protocolName: {protocolName}");
+                logger.Info($"RegisterUrlProtocol: Variable applicationPath: {applicationPath}");
+                logger.Info("RegisterUrlProtocol: Will try to add registry keys and values...");
                 var regKeyCurrUser = Registry.CurrentUser.OpenSubKey("Software", true).OpenSubKey("Classes", true);
                 RegistryKey key = regKeyCurrUser.CreateSubKey(protocolName);
                 key.SetValue("URL Protocol", protocolName);
                 key.CreateSubKey(@"shell\open\command").SetValue("", "\"" + applicationPath + "\" \"%1\"");
+                logger.Info("RegisterUrlProtocol: Done adding registry keys and values");
             }
             catch (Exception ex)
             {
                 logger.Error("Exception: " + ex.Message);
             }
         }
-
-
     }
 }

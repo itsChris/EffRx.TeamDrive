@@ -1,48 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
-		<DirectoryRef Id="TARGETDIR">
-			<Directory Id="dir49D8A608930ACF70EBF300F3987A5292" Name="EffRx2">
-				<Component Id="cmp5E16AB50C6B9F14741077F57A42476C7" Guid="{BB28DACD-AF2D-4B30-80F3-FA9BA8335D92}">
-					<File Id="fil75B5031169E01ECBAD49FC7C1C001319" KeyPath="yes" Source="_Sources\EffRx.TeamDrive.Common.dll" />
+		<DirectoryRef Id="INSTALLFOLDER">
+			<Component Id="cmp5E16AB50C6B9F14741077F57A42476C7" Guid="{BB28DACD-AF2D-4B30-80F3-FA9BA8335D92}">
+				<File Id="fil75B5031169E01ECBAD49FC7C1C001319" KeyPath="yes" Source="_Sources\EffRx.TeamDrive.Common.dll" />
+			</Component>
+			<Component Id="cmp2BCA947B2DEC509BAED5145BA9D2B8F9" Guid="{F64BAB0C-E841-4673-B170-6FBE27DEEDF7}">
+				<File Id="filB26E6DFED4896CDD7C76A8AE435EF866" KeyPath="yes" Source="_Sources\EffRx.TeamDrive.ProtocolHandler.exe" />
+			</Component>
+			<Component Id="cmp1E4012DA549FE6B4A9B04288B23AC60B" Guid="{307B78E2-DB15-42BA-819A-DF58D4A2ACCF}">
+				<File Id="filB566E9E5CDF6F54907FD18C963E20186" KeyPath="yes" Source="_Sources\EffRx.TeamDrive.ShellEx.exe" />
+			</Component>
+			<Component Id="cmp97BA5F5149D56365D9A508E858A26E68" Guid="{93B0AE00-8F78-46DD-9761-544FEE5E3494}">
+				<File Id="filF5F06EB4BAD1A6D0FE8830E1B94D7CBA" KeyPath="yes" Source="_Sources\EffRx.TeamDrive.ShellExHandler.exe" />
+			</Component>
+			<Component Id="cmpD595DF07809A4E1623F04DD42F4B7877" Guid="{9C7229C4-25C6-45E2-9774-908715328706}">
+				<File Id="filD31B320C1969CCDF43754A86BCE6499E" KeyPath="yes" Source="_Sources\EffRx.TeamDrive.Sqlite.dll" />
+			</Component>
+			<Component Id="cmpD38233929A9848F839F7CD5137C2D101" Guid="{FBD88343-6643-4C67-B54E-CB38FC15D70B}">
+				<File Id="fil8CC499863923D677EF21BD1DE6710B02" KeyPath="yes" Source="_Sources\EntityFramework.dll" />
+			</Component>
+			<Component Id="cmpFDF45460B1DEFAAF687C25B7C9B35442" Guid="{50B2CA26-1CB5-40ED-84F6-2F4AB48E95F5}">
+				<File Id="fil550124E3526A4EE9263D9E49B56BFB23" KeyPath="yes" Source="_Sources\EntityFramework.SqlServer.dll" />
+			</Component>
+			<Component Id="cmp3F72B6460BFED3EB664D697E2717141D" Guid="{8CF76374-F6A2-4CBF-9B90-FA9B69F927F3}">
+				<File Id="fil154DD3F847BE258BC46FC9C5A87DC4C3" KeyPath="yes" Source="_Sources\System.Data.SQLite.dll" />
+			</Component>
+			<Component Id="cmpDE905B013018C90D5080CC6160EC86CA" Guid="{07B82B90-23B9-408E-8923-010CE91DEA2C}">
+				<File Id="fil52CE5DB51310C544F2B9D608EC6F80E1" KeyPath="yes" Source="_Sources\System.Data.SQLite.EF6.dll" />
+			</Component>
+			<Component Id="cmp02875F646C7F62F734486AA86E660C84" Guid="{5A50BB9E-AF93-4823-B4F8-6425A9B25D1B}">
+				<File Id="filB6DDCF2997B2242CA027260E7109B429" KeyPath="yes" Source="_Sources\System.Data.SQLite.Linq.dll" />
+			</Component>
+			<Directory Id="dirE05329779ABB29365490F31607F18D87" Name="x64">
+				<Component Id="cmpD98AC7B3C98FE893D8669B57F3BC70C6" Guid="{B25DB08F-978A-4D82-83EF-A27C5CED6A25}">
+					<File Id="fil38F3FA658FD61C158A0D75D3A1DCDCA8" KeyPath="yes" Source="_Sources\x64\SQLite.Interop.dll" />
 				</Component>
-				<Component Id="cmp2BCA947B2DEC509BAED5145BA9D2B8F9" Guid="{F64BAB0C-E841-4673-B170-6FBE27DEEDF7}">
-					<File Id="filB26E6DFED4896CDD7C76A8AE435EF866" KeyPath="yes" Source="_Sources\EffRx.TeamDrive.ProtocolHandler.exe" />
+			</Directory>
+			<Directory Id="dir3462945B708A5E06BE9768DF7A1CB87C" Name="x86">
+				<Component Id="cmp4C9790BCA13EF89842CCC1B8435D2D4A" Guid="{EC00972F-F77B-456D-81A5-8697E01CA4C2}">
+					<File Id="filC23C5E77F0F351F045575CB97F872B67" KeyPath="yes" Source="_Sources\x86\SQLite.Interop.dll" />
 				</Component>
-				<Component Id="cmp1E4012DA549FE6B4A9B04288B23AC60B" Guid="{307B78E2-DB15-42BA-819A-DF58D4A2ACCF}">
-					<File Id="filB566E9E5CDF6F54907FD18C963E20186" KeyPath="yes" Source="_Sources\EffRx.TeamDrive.ShellEx.exe" />
-				</Component>
-				<Component Id="cmp97BA5F5149D56365D9A508E858A26E68" Guid="{93B0AE00-8F78-46DD-9761-544FEE5E3494}">
-					<File Id="filF5F06EB4BAD1A6D0FE8830E1B94D7CBA" KeyPath="yes" Source="_Sources\EffRx.TeamDrive.ShellExHandler.exe" />
-				</Component>
-				<Component Id="cmpD595DF07809A4E1623F04DD42F4B7877" Guid="{9C7229C4-25C6-45E2-9774-908715328706}">
-					<File Id="filD31B320C1969CCDF43754A86BCE6499E" KeyPath="yes" Source="_Sources\EffRx.TeamDrive.Sqlite.dll" />
-				</Component>
-				<Component Id="cmpD38233929A9848F839F7CD5137C2D101" Guid="{FBD88343-6643-4C67-B54E-CB38FC15D70B}">
-					<File Id="fil8CC499863923D677EF21BD1DE6710B02" KeyPath="yes" Source="_Sources\EntityFramework.dll" />
-				</Component>
-				<Component Id="cmpFDF45460B1DEFAAF687C25B7C9B35442" Guid="{50B2CA26-1CB5-40ED-84F6-2F4AB48E95F5}">
-					<File Id="fil550124E3526A4EE9263D9E49B56BFB23" KeyPath="yes" Source="_Sources\EntityFramework.SqlServer.dll" />
-				</Component>
-				<Component Id="cmp3F72B6460BFED3EB664D697E2717141D" Guid="{8CF76374-F6A2-4CBF-9B90-FA9B69F927F3}">
-					<File Id="fil154DD3F847BE258BC46FC9C5A87DC4C3" KeyPath="yes" Source="_Sources\System.Data.SQLite.dll" />
-				</Component>
-				<Component Id="cmpDE905B013018C90D5080CC6160EC86CA" Guid="{07B82B90-23B9-408E-8923-010CE91DEA2C}">
-					<File Id="fil52CE5DB51310C544F2B9D608EC6F80E1" KeyPath="yes" Source="_Sources\System.Data.SQLite.EF6.dll" />
-				</Component>
-				<Component Id="cmp02875F646C7F62F734486AA86E660C84" Guid="{5A50BB9E-AF93-4823-B4F8-6425A9B25D1B}">
-					<File Id="filB6DDCF2997B2242CA027260E7109B429" KeyPath="yes" Source="_Sources\System.Data.SQLite.Linq.dll" />
-				</Component>
-				<Directory Id="dirE05329779ABB29365490F31607F18D87" Name="x64">
-					<Component Id="cmpD98AC7B3C98FE893D8669B57F3BC70C6" Guid="{B25DB08F-978A-4D82-83EF-A27C5CED6A25}">
-						<File Id="fil38F3FA658FD61C158A0D75D3A1DCDCA8" KeyPath="yes" Source="_Sources\x64\SQLite.Interop.dll" />
-					</Component>
-				</Directory>
-				<Directory Id="dir3462945B708A5E06BE9768DF7A1CB87C" Name="x86">
-					<Component Id="cmp4C9790BCA13EF89842CCC1B8435D2D4A" Guid="{EC00972F-F77B-456D-81A5-8697E01CA4C2}">
-						<File Id="filC23C5E77F0F351F045575CB97F872B67" KeyPath="yes" Source="_Sources\x86\SQLite.Interop.dll" />
-					</Component>
-				</Directory>
 			</Directory>
 		</DirectoryRef>
 	</Fragment>

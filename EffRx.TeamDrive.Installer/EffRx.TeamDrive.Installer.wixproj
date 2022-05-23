@@ -23,16 +23,6 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EffRx.TeamDrive.Common\EffRx.TeamDrive.Common.csproj">
-      <Name>EffRx.TeamDrive.Common</Name>
-      <Project>{b0c2aac3-fd3a-438d-8084-fc6999b729ef}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="_Sources" />
     <Folder Include="_Sources\ICOs" />
     <Folder Include="_Sources\x64\" />
@@ -52,6 +42,12 @@
     <Content Include="_Sources\System.Data.SQLite.Linq.dll" />
     <Content Include="_Sources\x64\SQLite.Interop.dll" />
     <Content Include="_Sources\x86\SQLite.Interop.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />

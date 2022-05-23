@@ -28,6 +28,9 @@ namespace EffRx.TeamDrive.ShellExHandler
             // initiate logger
             logger = new SimpleLogger(LogFilePath);
 
+            // dump command line args
+            DumpCommandLineArguments(args);
+
             // it's a user registry key but requires UAC elevated permission in order to add the key .. 
             ChangeOutlookSecurity(UriScheme);
 
@@ -42,6 +45,7 @@ namespace EffRx.TeamDrive.ShellExHandler
                 string path = args[0];
                 if (File.Exists(path))
                 {
+                    logger.Info($"Good - File exists: {path}");
                     AddShellEx(path);
                 }
                 else
@@ -58,9 +62,13 @@ namespace EffRx.TeamDrive.ShellExHandler
         {
             try
             {
-                var reg = Registry.LocalMachine.OpenSubKey("Software", true).OpenSubKey("Classes", true).OpenSubKey("AllFilesystemObjects", true).OpenSubKey("shell", true);
+                logger.Info($"AddShellEx: Variable applicationPath: {applicationPath}");
+                logger.Info($"AddShellEx: Will try to add registry keys and values...");
+                var reg = Registry.LocalMachine.OpenSubKey("Software", true).OpenSubKey("Classes", true).CreateSubKey("AllFilesystemObjects", true).CreateSubKey("shell", true);
                 RegistryKey key = reg.CreateSubKey(@"EffRx-TeamDriveShellEx\command", true);
                 key.SetValue("", "\"" + applicationPath + "\" \"%1\"");
+                logger.Info($"AddShellEx: Done adding registry keys and values");
+
             }
             catch (Exception ex)
             {
@@ -93,6 +101,13 @@ namespace EffRx.TeamDrive.ShellExHandler
             catch (Exception ex)
             {
                 logger.Error("Exception: " + ex.Message);
+            }
+        }
+        private static void DumpCommandLineArguments(string[] args)
+        {
+            for (int i = 0; i < args.Length; i++)
+            {
+                logger.Info($"Argument: {i} has value: {args[i]}");
             }
         }
     }

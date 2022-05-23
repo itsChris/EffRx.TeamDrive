@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="61759859-1183-4EE3-8672-6DFC7B381130" 
-			 Name="EffRx TeamDrive shell extension and protocol handler" 
-			 Language="1033" 
-			 Version="1.0.0.0" 
-			 Manufacturer="Solvia GmbH, Forch, Switzerland" 
+	<Product Id="61759859-1183-4EE3-8672-6DFC7B381130"
+			 Name="EffRx TeamDrive shell extension and protocol handler"
+			 Language="1033"
+			 Version="1.0.0.0"
+			 Manufacturer="Solvia GmbH, Forch, Switzerland"
 			 UpgradeCode="4dca2c9d-63d7-42d1-9ce4-45aa232b5e26">
-		<Package InstallerVersion="200" 
-				 Compressed="no" 
+		<Package InstallerVersion="200"
+				 Compressed="yes"
 				 InstallScope="perMachine" />
-		
+
 		<Condition Message="You need to be an administrator to install this product.">
 			Privileged
 		</Condition>
@@ -21,16 +21,24 @@
 		<Property Id="ARPNOMODIFY" Value="1"/>
 		<Property Id="ARPCONTACT" Value="Solvia GmbH, Forch, Switzerland, info@solvia.ch"/>
 
+		<Property Id="QtExecCmdLine" Value="&quot;[INSTALLLOCATION]EffRx.TeamDrive.ProtocolHandler&quot; addshellex"/>
+
+		<CustomAction Id="QtExec1" BinaryKey="WixCA" DllEntry="CAQuietExec" Execute="immediate" Return="check"/>
+
+		<InstallExecuteSequence>
+			<Custom Action="QtExec1" After="InstallFinalize"><![CDATA[NOT(Installed)]]></Custom>
+		</InstallExecuteSequence>
+
 		<!-- Begin of icon declarations -->
 		<Icon Id="SolviaCustomIcon" SourceFile=".\_Sources\ICOs\protocol_icon_137277.ico"/>
 		<!-- End of icon declarations -->
-		<Media Id="1" EmbedCab="no" />
+		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<!--<MediaTemplate />-->
 
-		<Feature Id="ProductFeature" 
-				 Title="EffRx.TeamDrive.Installer" 
+		<Feature Id="ProductFeature"
+				 Title="EffRx.TeamDrive.Installer"
 				 Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
 			<ComponentGroupRef Id="MainComp" />
