@@ -9,6 +9,7 @@ namespace EffRx.TeamDrive.ShellExHandler
     internal class Program
     {
         public const string UriScheme = "EffRx-TeamDrive";
+        public const string ContextMenuEntryName = "EffRx - Copy TD Link";
 
         private static SimpleLogger logger { get; set; }
         private static string LogFilePath
@@ -65,7 +66,7 @@ namespace EffRx.TeamDrive.ShellExHandler
                 logger.Info($"AddShellEx: Variable applicationPath: {applicationPath}");
                 logger.Info($"AddShellEx: Will try to add registry keys and values...");
                 var reg = Registry.LocalMachine.OpenSubKey("Software", true).OpenSubKey("Classes", true).CreateSubKey("AllFilesystemObjects", true).CreateSubKey("shell", true);
-                RegistryKey key = reg.CreateSubKey(@"EffRx-TeamDriveShellEx\command", true);
+                RegistryKey key = reg.CreateSubKey($@"{ContextMenuEntryName}\command", true);
                 key.SetValue("", "\"" + applicationPath + "\" \"%1\"");
                 logger.Info($"AddShellEx: Done adding registry keys and values");
 

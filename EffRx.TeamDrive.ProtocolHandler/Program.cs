@@ -46,7 +46,6 @@ namespace EffRx.TeamDrive.ProtocolHandler
 
             // initiate sqlLite..
             sqliteHandler = new SqliteHandler(TeamDriveSqliteDB, logger);
-            var spaces = sqliteHandler.GetSpaces();
 
             logger.Info($"args.length: {args.Length}");
 
@@ -55,8 +54,11 @@ namespace EffRx.TeamDrive.ProtocolHandler
             {
                 switch (args[0].ToLower())
                 {
+                    case "listspaces":
+                        sqliteHandler.GetSpaces();
+                        break;
                     case "?":
-                        Console.WriteLine($"Argument can be: register | addshellex | win10menu | a valid {UriScheme} link");
+                        Console.WriteLine($"Argument can be: listspaces | register | addshellex | win10menu | a valid {UriScheme} link");
                         break;
                     case "register":
                         logger.Info($"Will register protocol handler: {UriScheme}");
@@ -82,6 +84,8 @@ namespace EffRx.TeamDrive.ProtocolHandler
 
                                 logger.Info($"It's a link -> {args[0]}");
 
+                                var spaces = sqliteHandler.GetSpaces();
+                                    
                                 foreach (var objspace in spaces)
                                 {
                                     logger.Info($"Checking if space: {objspace.SpaceRoot.ToLower()} contains: {protocolLink.SpaceFromLink.ToLower()}");
